@@ -1,21 +1,65 @@
 const mongoose = require('mongoose');
 
-// File schema with Excel data storage
-const fileSchema = new mongoose.Schema({
-  originalName: String,
-  filename: String,
-  mimetype: String,
-  size: Number,
-  path: String,
-  uploadDate: {
-    type: Date,
-    default: Date.now
+const { Schema, model } = mongoose;
+
+const fileSchema = new Schema(
+  {
+    originalName: {
+      type: String,
+      default: '',
+    },
+    filename: {
+      type: String,
+      default: '',
+    },
+    mimetype: {
+      type: String,
+      default: '',
+    },
+    size: {
+      type: Number,
+      default: 0,
+    },
+    path: {
+      type: String,
+      default: '',
+    },
+    uploadDate: {
+      type: Date,
+      default: Date.now,
+    },
+    data: {
+      type: [Schema.Types.Mixed],
+      default: [],
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
+    deletedBy: {
+      type: Schema.Types.ObjectId,
+      default: null,
+    },
+    isUpdated: {
+      type: Boolean,
+      default: false,
+    },
+    updatedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      default: null,
+    },
   },
-  data: [mongoose.Schema.Types.Mixed] // Store Excel data as flat objects with dynamic keys
-});
+  {
+    versionKey: false,
+    timestamps: false,
+  }
+);
 
-fileSchema.set('versionKey', false);
+const FileModel = model('File', fileSchema);
 
-const File = mongoose.model('File', fileSchema);
-
-module.exports = File;
+module.exports = FileModel;

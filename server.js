@@ -1,7 +1,7 @@
 const express = require('express');
-const cron = require('node-cron');
+const logger = require('logger')
 const connectDB = require('./config/database');
-const fileRoutes = require('./routes/fileRoutes');
+const fileRoutes = require('./routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
