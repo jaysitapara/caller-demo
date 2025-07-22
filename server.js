@@ -21,20 +21,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// 🕒 Auto-run function every 5 minutes
-cron.schedule('*/5 * * * *', () => {
-  console.log(`[${new Date().toISOString()}] Running scheduled task every 5 minutes`);
-
-  // 👉 Replace this block with your custom logic
-  // Example: clean up temp files, send reminders, etc.
-  try {
-    // yourFunction(); // call your own function here
-    console.log('Scheduled task executed');
-  } catch (err) {
-    console.error('Error in scheduled task:', err);
-  }
-});
-
 app.use((error, req, res, next) => {
   if (error instanceof require('multer').MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
