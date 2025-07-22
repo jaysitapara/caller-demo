@@ -2,7 +2,6 @@ const express = require('express');
 const cron = require('node-cron');
 const connectDB = require('./config/database');
 const fileRoutes = require('./routes/fileRoutes');
-const feedbackRoutes = require('./routes/feedbackRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +12,6 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 app.use('/api', fileRoutes);
-app.use('/api', feedbackRoutes);
 
 app.get('/', (req, res) => {
   res.json({
