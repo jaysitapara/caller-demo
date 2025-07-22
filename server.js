@@ -19,6 +19,21 @@ app.get('/', (req, res) => {
   });
 });
 
+// try to ping backend every 5 minutes
+setInterval(() => {
+  fetch("https://caller-demo.onrender.com/")
+    .then((response) => {
+      if (!response.ok) {
+        logger.error("Health check failed:", response.statusText);
+      } else {
+        logger.info("Health check successful");
+      }
+    })
+    .catch((error) => {
+      logger.error("Error during health check:", error);
+    });
+}, 5 * 60 * 1000);// 5 minutes
+
 app.use((error, req, res, next) => {
   if (error instanceof require('multer').MulterError) {
     if (error.code === 'LIMIT_FILE_SIZE') {
