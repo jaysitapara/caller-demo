@@ -12,6 +12,7 @@ router.put('/files/:id', upload.single('file'), fileController.updateFile);
 router.get('/download/:id', fileController.downloadFile);
 router.get('/excel/:id', fileController.getExcelData);
 router.delete('/files/:id', fileController.deleteFile);
+router.get('/demo', fileController.getDemo);
 
 // feedback
 router.post('/feedback/:id', feedbackController.createFeedback);

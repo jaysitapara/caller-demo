@@ -405,6 +405,13 @@ const updateFile = async (req, res) => {
   }
 };
 
+const getDemo = async (req, res) => {
+  try {
+    res.send("Server is running...")
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 module.exports = {
   uploadFile,
   getAllFiles,
@@ -412,5 +419,6 @@ module.exports = {
   downloadFile,
   deleteFile,
   getExcelData,
-  updateFile
+  updateFile,
+  getDemo
 };
