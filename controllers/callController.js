@@ -1,4 +1,4 @@
-const CallModel = require('../models/Call');
+const CallModel = require("../models/call")
 
 const startCall = async (req, res) => {
     try {
