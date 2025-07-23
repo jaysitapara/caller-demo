@@ -1,5 +1,5 @@
 const express = require('express');
-const logger = require('logger')
+const logger = require('./logger');
 const connectDB = require('./config/database');
 const fileRoutes = require('./routes');
 
@@ -19,20 +19,20 @@ app.get('/', (req, res) => {
   });
 });
 
-// try to ping backend every 5 minutes
-// setInterval(() => {
-//   fetch("https://caller-demo.onrender.com/")
-//     .then((response) => {
-//       if (!response.ok) {
-//         logger.error("Health check failed:", response.statusText);
-//       } else {
-//         logger.info("Health check successful");
-//       }
-//     })
-//     .catch((error) => {
-//       logger.error("Error during health check:", error);
-//     });
-// }, 5 * 60 * 1000);// 5 minutes
+// Ping backend every 5 minutes to keep Render alive
+setInterval(() => {
+  fetch("https://caller-demo.onrender.com/")
+    .then((response) => {
+      if (!response.ok) {
+        logger.error(`Health check failed: ${response.statusText}`);
+      } else {
+        logger.info("Health check successful");
+      }
+    })
+    .catch((error) => {
+      logger.error(`Error during health check: ${error.message}`);
+    });
+}, 5 * 60 * 1000); // 5 minutes
 
 app.use((error, req, res, next) => {
   if (error instanceof require('multer').MulterError) {
@@ -45,12 +45,12 @@ app.use((error, req, res, next) => {
     return res.status(400).json({ error: error.message });
   }
 
-  console.error('Unhandled error:', error);
+  logger.error(`Unhandled error: ${error.stack}`);
   res.status(500).json({ error: 'Internal server error' });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  logger.info(`Server is running on port ${PORT}`);
 });
 
 module.exports = app;
